@@ -1,0 +1,20 @@
+
+ngrok
+https://cf701f7c0bd1.ngrok.io/
+
+canvas
+  width=600
+  height=150
+
+キャラクターを描く
+https://developer.mozilla.org/ja/docs/Web/API/ImageData
+
+ドット絵を文字列に変換
+https://misebox.github.io/bit-pattern-serializer/
+
+
+キー入力を受け付ける
+動かす（跳ねる）
+時間を管理する
+フィールドを作る
+
