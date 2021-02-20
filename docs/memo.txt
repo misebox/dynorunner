@@ -13,8 +13,27 @@ https://developer.mozilla.org/ja/docs/Web/API/ImageData
 https://misebox.github.io/bit-pattern-serializer/
 
 
-キー入力を受け付ける
-動かす（跳ねる）
-時間を管理する
+- キー入力を受け付ける
+- 跳ねる
+- 動かす
+  - 障害物を動かす
+  - 背景を流す
+- 時間を管理する
+
+2/20
+- 緑の物体
+- 動いてくる。
+- 自動発生
+- 当たり判定
+- module化
+
+スコアを表示する
 フィールドを作る
 
+次回
+- 障害物のバリエーション
+- スコア
+- スピード変化
+- パターンイメージを出す
+- 音が欲しい
+- hello消す。
