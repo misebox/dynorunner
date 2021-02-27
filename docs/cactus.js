@@ -1,14 +1,28 @@
-function Cactus(root) {
+function Cactus(root, i) {
+    this.size = {0:{w:32,h:32},
+                 1:{w:16,h:40},
+                 2:{w:32,h:50},
+                 3:{w:64,h:32},
+                 4:{w:16,h:60},
+                 5:{w:3,h:3}
+                };
     this.root = root;
+    this.w = this.size[i].w;
+    this.h = this.size[i].h;
     this.x = 600;
-    this.y = 110;
-    this.w = 16;
-    this.h = 32;
+    this.y = 150 - this.size[i].h;
     this.img = dummyImageFactory(this.root, this.w, this.h);
     return this;
 }
+const ratio = 1 / 60;
+let prevNow = performance.now();
 Cactus.prototype.step = function () {
-    this.x -= this.root.state.speed / 60;
+    //let diff = Math.floor(this.root.state.speed * ratio * 10)/10;
+    let diff = Math.floor(this.root.state.speed * ratio);
+    this.x -= diff;
+    let newNow = performance.now();
+    console.log('diff', diff, prevNow - newNow);
+    prevNow = newNow;
     //this.jumpProgress += (100 / 60 * (1000 / this.jumpInterval));
 }
 

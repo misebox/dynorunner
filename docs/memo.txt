@@ -1,6 +1,6 @@
 
 ngrok
-https://cf701f7c0bd1.ngrok.io/
+https://c49926b194f1.ngrok.io
 
 canvas
   width=600
@@ -27,13 +27,23 @@ https://misebox.github.io/bit-pattern-serializer/
 - 当たり判定
 - module化
 
-スコアを表示する
-フィールドを作る
+2/27
+- hello消す。
+- スコアを表示する
+- 音を出す
+- faviconを出す
+```
+# ImageMagick がインストールされていればこれでいける。
+convert dino.png -define icon:auto-resize favicon.ico
+```
+- 表示をなめらかにする
+- フィールドを作る
+- バグ？: 見た目の動きがカクカクして見える。謎。
+  たまに改善したように見えることがある？？
 
-次回
+
 - 障害物のバリエーション
-- スコア
 - スピード変化
 - パターンイメージを出す
-- 音が欲しい
-- hello消す。
+- GAMEOVER 時、文字を表示して最初に戻るようにする
+

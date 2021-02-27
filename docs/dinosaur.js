@@ -1,13 +1,16 @@
+import {jumpSound, deathSound} from './sound.js';
 function Dinosaur(root) {
     this.root = root;
-    this.x = 10;
-    this.y = 110;
-    this.baseY = 110;
     this.w = 32;
     this.h = 32;
+    this.x = 10;
+    this.y = 150 - this.h;
+    this.baseY = 150 - this.h;
     this.jumpInterval = 800;
     this.jumpProgress = 100;
     this.img = dummyImageFactory(this.root, this.w, this.h);
+    this.jumpSound = jumpSound;
+    this.deathSound = deathSound;
     return this;
 }
 Dinosaur.prototype.step = function () {
@@ -23,8 +26,8 @@ Dinosaur.prototype.step = function () {
 Dinosaur.prototype.jump = function () {
     if (this.jumpProgress >= 100) {
       this.jumpProgress = 0;
+      this.jumpSound.play();
     }
-
 }
 
 Dinosaur.prototype.getBound = function () {
@@ -51,6 +54,10 @@ Dinosaur.prototype.isCollided = function (stuff) {
 
     return (x_collision && y_collision);
 }
+Dinosaur.prototype.death = function (){
+    this.deathSound.play();
+}
+
 Dinosaur.prototype.isDisplay = () => (true);
 
 function dummyImageFactory(root, w, h) {
