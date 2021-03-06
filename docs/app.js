@@ -13,80 +13,103 @@ function run() {
         //ctx.fillRect(10, 100, 50, 50);
     }
     ctx.imageSmoothingEnabled = false;
+
+    const buffer = document.getElementById('buffer');
+    const bufferCtx = canvas.getContext('2d');
+
     // global
     Root.canvas = canvas;
     Root.ctx = ctx;
+    Root.buffer = {
+      canvas: buffer,
+      ctx: bufferCtx,
+    };
     Root.state = {
       input: {},
       elapsedTime: 0,
       cntFrame: 0,
       nextStuff: 0, 
-      speed: 200,
+      speed: 400,
       interval: 17,
       fps: 60,
       score: 0,
+      looped: false,
     };
     // setting
 
     // input
     document.body.addEventListener('keydown',(e) => {
-        if (e.code === "Space"){
-          //console.log("space has down")
-        }
         Root.state.input[e.code] = true;
+        if (e.code === "Enter"){
+            console.log("Enter");
+            if(Root.state.looped === false){
+                startGameloop();
+            }
+          }
     });
     document.body.addEventListener('keyup',(e) => {
-        if (e.code === "Space"){
-          //console.log("space has up")
-        }
         Root.state.input[e.code] = false;
     });
-    
+
     // dinosaur
     Root.dinosaur = new Dinosaur(Root);
 
-    //practice()
+    // practice()
 
     startGameloop();
     console.log('run end')
 }
 
 function draw(stuffs) {
-    Root.ctx.clearRect(0, 0, Root.canvas.width, Root.canvas.height);
-    Root.ctx.putImageData(Root.dinosaur.img, Root.dinosaur.x, Root.dinosaur.y);
+    const buf = Root.buffer;
+    buf.ctx.clearRect(0, 0, Root.canvas.width, Root.canvas.height);
+    buf.ctx.putImageData(Root.dinosaur.img, Root.dinosaur.x, Root.dinosaur.y);
     for (var s of stuffs) {
-        Root.ctx.putImageData(s.img, s.x, s.y);
+        buf.ctx.putImageData(s.img, s.x, s.y);
     }
     drawStatus(stuffs)
     // const dino = Root.dinosaur;
     // Root.ctx.putImageData(dino.img, dino.x, dino.y);
     // drawStatus()
     //console.log('drew');
+    const img = buf.ctx.getImageData(0, 0, 599, 149);
+    buf.ctx.putImageData(img, 0, 0);
 }
 
 function drawStatus(stuffs) {
-    Root.ctx.fillStyle = 'black';
-    Root.ctx.font = '14px sans-serif';
-    Root.ctx.textAlign = 'right';
+    const buf = Root.buffer;
+    buf.ctx.fillStyle = 'black';
+    buf.ctx.font = '14px sans-serif';
+    buf.ctx.textAlign = 'right';
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    Root.ctx.fillText(`score: ${Root.state.score}`, 600, 20, 200);  
-    Root.ctx.fillText(`frame: ${Root.state.cntFrame}, time: ${numberWithCommas(Root.state.elapsedTime)}`, 600, 40, 200);
-    Root.ctx.fillText(`stuffs: ${stuffs.length}`, 600, 60, 200);  
+    buf.ctx.fillText(`score: ${Root.state.score}`, 600, 20, 200);  
+    buf.ctx.fillText(`frame: ${Root.state.cntFrame}, time: ${numberWithCommas(Root.state.elapsedTime)}`, 600, 40, 200);
+    buf.ctx.fillText(`stuffs: ${stuffs.length}`, 600, 60, 200);  
 }
 
 function startGameloop() {
     var timerId = null;
     const startTime =  performance.now();
     let stuffs = [];
-    let prevScoreTime = startTime;
+    let prevScoreTime = 0;
     // should be included in settings?
+    //Root.stateの初期化
+    Root.state.score = 0;
+    Root.cntFrame = 0;
+    Root.state.looped = true;
     let scoreInterval = 100;
     let speedUpThreshold = 100;
     let tmp = 0;
     async function gameloop() {
+        //startTimeからの経過時間をカウント
         Root.state.elapsedTime = Math.floor( performance.now() - startTime);
+        // console.log(
+        //     'now', performance.now(),
+        //     'diff', Root.state.elapsedTime - prevScoreTime,
+        //     'elapsed', Root.state.elapsedTime,
+        //     'prevScoreTime', prevScoreTime);
         if ((Root.state.elapsedTime - prevScoreTime) >= scoreInterval) {
             Root.state.score += 1;
             prevScoreTime += scoreInterval;
@@ -111,6 +134,9 @@ function startGameloop() {
         // Append stuffs
         appendStuffs(stuffs);
         // Garbage Collection
+        stuffs.filter((s) => !s.isDisplay()).map(s => {
+          Root.state.score += Math.floor(s.w * s.h / 100) ** 2;
+        });
         stuffs = stuffs.filter((s) => s.isDisplay());
         // Draw
         draw(stuffs);
@@ -119,13 +145,20 @@ function startGameloop() {
         //Collision Check
         if(stuffs.some((stuff) => (Root.dinosaur.isCollided(stuff)))){
             Root.dinosaur.death();
-            console.log("collided!!!")
+            console.log("collided!!!");
+            //game over 表示
+            Root.ctx.font = '48px sans-serif';
+            Root.ctx.fillText("GAME OVER", 440, 100);  
+            Root.ctx.font = '14px sans-serif';
+            Root.ctx.fillText("PRESS ENTER KEY!!", 380, 130);
             clearInterval(timerId);
+            Root.state.looped = false;
             return;
         }
+        // できるだけ17msごとに実行するため、setTimeoutへの指定時間を調整する
         let untilNext = (Root.state.interval - (performance.now() - startTime - Root.state.elapsedTime));
         untilNext = untilNext < 0 ? 0 : untilNext;
-        console.log(untilNext);
+        //console.log(untilNext);
         timerId = setTimeout(gameloop, untilNext);
     }
     // timerId = setInterval(gameloop, Root.state.interval)
@@ -143,6 +176,9 @@ function appendStuffs(stuffs){
     Root.state.nextStuff -= 1;
 }
 
+function gameReset(){
+    console.log("Game reset");
+}
 
 window.addEventListener('DOMContentLoaded', e => {
     run()

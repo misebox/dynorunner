@@ -1,4 +1,6 @@
 import {jumpSound, deathSound} from './sound.js';
+import image from './image.js';
+
 function Dinosaur(root) {
     this.root = root;
     this.w = 32;
@@ -11,6 +13,8 @@ function Dinosaur(root) {
     this.img = dummyImageFactory(this.root, this.w, this.h);
     this.jumpSound = jumpSound;
     this.deathSound = deathSound;
+    const shape = 'ICAAAH/gAAP/+AAHg/4AB7v/AAe7/wAHg/8AB///AAP//wAB//6AAP/wgAD//sAB/gDAA/wA4AP4APgH+AD+D/8Af///AD//+QAf//EAD//wAAf/4AAD/8AAA/+AAAP/AAAD/gAAAf4AAAH+AAADhgAAA4cAAAOHAAAHj+AAB+/4AA==';
+    this.img = image.loadFromBase64(root.ctx, shape, 0xC86464F0);
     return this;
 }
 Dinosaur.prototype.step = function () {

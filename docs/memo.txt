@@ -1,6 +1,6 @@
 
 ngrok
-https://c49926b194f1.ngrok.io
+https://4d8fc80d120b.ngrok.io
 
 canvas
   width=600
@@ -29,6 +29,7 @@ https://misebox.github.io/bit-pattern-serializer/
 
 2/27
 - hello消す。
+- 障害物のバリエーション①
 - スコアを表示する
 - 音を出す
 - faviconを出す
@@ -36,14 +37,25 @@ https://misebox.github.io/bit-pattern-serializer/
 # ImageMagick がインストールされていればこれでいける。
 convert dino.png -define icon:auto-resize favicon.ico
 ```
-- 表示をなめらかにする
-- フィールドを作る
-- バグ？: 見た目の動きがカクカクして見える。謎。
-  たまに改善したように見えることがある？？
-
-
-- 障害物のバリエーション
-- スピード変化
-- パターンイメージを出す
+3/6
+- スピードを修正する
 - GAMEOVER 時、文字を表示して最初に戻るようにする
+- 表示をなめらかにする(無理だった)
+  - バグ？: 見た目の動きがカクカクして見える。謎。
+    たまに改善したように見えることがある？？
+  - putImage で最後にまとめて描画するように変えればよいかも。
+
+- パターンイメージを出す *
+  - https://github.com/misebox/bit-pattern-serializer
+  - こっちがページ https://misebox.github.io/bit-pattern-serializer/
+  dino: ICAAAH/gAAP/+AAHg/4AB7v/AAe7/wAHg/8AB///AAP//wAB//6AAP/wgAD//sAB/gDAA/wA4AP4APgH+AD+D/8Af///AD//+QAf//EAD//wAAf/4AAD/8AAA/+AAAP/AAAD/gAAAf4AAAH+AAADhgAAA4cAAAOHAAAHj+AAB+/4AA==
+  cactus: ICAAAAAAAAAAAAADgAAAA8DABgfh4A8H4eAPh+HgD4fD4AfPw+AB/4fgAH+HwAA/j8AAD4+AAA+fgAAP/wAAD/4AAAf8AAAH8AAAx8AAAePgAAHj4AAB4eAAAPHgAAD54AAAfeAAAD/gAAAP4AAAB/AAAAfwAAAH8AAAB/AAAAPwAA==
+
+やりたいこと
+- フィールドを作る
+- 障害物のバリエーション②
+- スピード変化
+- ドット単位の当たり判定
+- 動く障害物
+
 
