@@ -85,8 +85,9 @@ function drawStatus(stuffs) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     buf.ctx.fillText(`score: ${Root.state.score}`, 600, 20, 200);  
-    buf.ctx.fillText(`frame: ${Root.state.cntFrame}, time: ${numberWithCommas(Root.state.elapsedTime)}`, 600, 40, 200);
-    buf.ctx.fillText(`stuffs: ${stuffs.length}`, 600, 60, 200);  
+    // DEBUG INFO
+    // buf.ctx.fillText(`frame: ${Root.state.cntFrame}, time: ${numberWithCommas(Root.state.elapsedTime)}`, 600, 40, 200);
+    // buf.ctx.fillText(`stuffs: ${stuffs.length}`, 600, 60, 200);  
 }
 
 function startGameloop() {
